@@ -1,10 +1,8 @@
 extern crate iv;
 
 use iv::boards::{dvach, ImageBoard};
-use termimad::inline;
-use owo_colors::OwoColorize;
+use termimad::{inline, ask, mad_print_inline, MadSkin, Question, Answer};
 use chrono::prelude::*;
-
 
 static BOARD: &str = "b";
 
@@ -13,10 +11,23 @@ fn main() {
     let timestamp: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(thread.timestamp, 0), Utc);
     let timestampfmt = timestamp.format("%Y-%m-%d %H:%M:%S");
 
-    println!("{}: {}\n{}: {}\n{}: {}\n{}: {}\n {}\n",
-        "Board".bold(), thread.board,
-        "Thread".bold(), thread.id,
-        "Posts".bold(), thread.posts_count,
-        "Time".bold(), timestampfmt,
-        inline(&thread.comment));
+    let output = format!(
+"- **Board**: {}
+- **Thread**: {}
+- **Posts**: {}
+- **Time**: {}
+
+{}", thread.board, thread.id, thread.posts_count, timestampfmt, thread.comment);
+    println!("{}", inline(&output));
+    let skin = MadSkin::default();
+
+    ask!(&skin, "What's next?", ('e') {
+        ('s', "Save") => {
+            mad_print_inline!(skin, "**Saving**.\n");
+            std::fs::write(format!("{}-{}.save.md", thread.board, thread.id), output.clone()).unwrap();
+        }
+        ('e', "Exit iv") => {
+            std::process::exit(0);
+        }
+    });
 }
