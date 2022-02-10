@@ -16,3 +16,7 @@ html2md = "0.2.13"
 termimad = "0.20"
 owo-colors = "3.2.0"
 chrono = "0.4.19"
+
+[profile.release]
+lto="fat"
+debug=0
