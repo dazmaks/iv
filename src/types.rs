@@ -26,8 +26,8 @@ pub struct ThreadInfo {
     pub id: ThreadID,
     pub comment: String,
 	pub posts_count: i64,
-	pub timestamp: i64,
-	pub views: i64
+	//pub files_count: i64,
+	pub timestamp: i64
 }
 
 pub struct Thread {

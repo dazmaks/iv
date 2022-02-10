@@ -1,6 +1,5 @@
-extern crate iv;
-
 use iv::boards::{dvach, ImageBoard};
+
 use termimad::{inline, ask, mad_print_inline, MadSkin, Question, Answer};
 use chrono::prelude::*;
 
@@ -23,7 +22,7 @@ fn main() {
 
     ask!(&skin, "What's next?", ('e') {
         ('s', "Save") => {
-            mad_print_inline!(skin, "**Saving**.\n");
+            mad_print_inline!(skin, "**Saving**\n");
             std::fs::write(format!("{}-{}.save.md", thread.board, thread.id), output.clone()).unwrap();
         }
         ('e', "Exit iv") => {
