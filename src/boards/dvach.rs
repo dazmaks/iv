@@ -1,4 +1,4 @@
-use crate::types::{Board, ThreadInfo};
+use crate::types::{Board, ThreadInfo, CatalogThread, File};
 
 use serde::{Serialize, Deserialize};
 use html2md::parse_html;
@@ -6,13 +6,13 @@ use html2md::parse_html;
 #[derive(Serialize, Deserialize)]
 struct ThreadShort {
     comment: String,
-    lasthit: i64,
+    lasthit: i32,
     num: String,
-    posts_count: i64,
+    posts_count: i32,
     score: f32,
     subject: String,
     timestamp: i64,
-    views: i64
+    views: i32
 }
 
 #[derive(Serialize, Deserialize)]
@@ -24,43 +24,43 @@ struct ThreadsJSON {
 #[derive(Serialize, Deserialize)]
 struct AbuNews {
     date: String,
-    num: i64,
+    num: i32,
     subject: String,
-    views: i64
+    views: i32
 }
 
 #[derive(Serialize, Deserialize)]
-struct File {
+struct DvachFile {
     display_name: String,
     full_name: String,
-    height: i64,
+    height: i32,
     md5: String,
     name: String,
     nsfw: bool,
     path: String,
-    size: i64,
+    size: i32,
     thumbnail: String,
-    tn_height: i64,
-    tn_width: i64,
-    file_type: i64,
+    tn_height: i32,
+    tn_width: i32,
+    file_type: i32,
 }
 
 #[derive(Serialize, Deserialize)]
-struct ThreadFull {
+struct DvachCatalogThread {
     banned: bool,
     closed: bool,
     comment: String,
     date: String,
     email: String,
     endless: bool,
-    files: Vec<File>,
-    filest_count: i64,
-    lasthit: i64,
+    files: Vec<DvachFile>,
+    files_count: i32,
+    lasthit: i32,
     name: String,
     num: String,
     op: bool,
     parent: String,
-    posts_count: i64,
+    posts_count: i32,
     sticky: bool,
     subject: String,
     tags: String,
@@ -88,7 +88,7 @@ struct Catalog {
     advert_top_link: String,
     board_banner_image: String,
     board_banner_link: String,
-    bump_limit: i64,
+    bump_limit: i32,
     default_name: String,
     enable_dices: bool,
     enable_flags: bool,
@@ -105,11 +105,12 @@ struct Catalog {
     enable_trips: bool,
     enable_video: bool,
     filter: String,
-    max_comment: i64,
-    max_files_size: i64,
+    max_comment: i32,
+    max_files_size: i32,
     news_abu: Vec<AbuNews>,
-    threads: Vec<ThreadFull>
+    threads: Vec<DvachCatalogThread>
 }
+
 pub struct Dvach;
 
 impl super::ImageBoard for Dvach {
@@ -125,18 +126,27 @@ impl super::ImageBoard for Dvach {
             timestamp: desir.threads[0].timestamp
         }
 	}
-    fn get_catalog(&self, board: Board) -> Vec<ThreadInfo> {
+    fn get_catalog(&self, board: Board) -> Vec<CatalogThread> {
         let url: String = format!("https://2ch.hk/{}/catalog.json", board);
 		let response = reqwest::blocking::get(url).unwrap();
 		let desir: Catalog = serde_json::from_str(&response.text().unwrap()).unwrap();
-		let infov: Vec<ThreadInfo> = desir.threads.into_iter().map(|e|
-            ThreadInfo {
+		let catalog: Vec<CatalogThread> = desir.threads.into_iter().map(|e|
+            CatalogThread {
                 board: desir.board.clone(),
-                id: e.num,
+                board_name: desir.board_name.clone(),
                 comment: e.comment,
+                email: e.email,
+                op: e.op,
                 posts_count: e.posts_count,
+                files_count: e.files_count,
+                files: e.files.into_iter().map(|f| File {
+                    uri: f.path,
+                    thumbnail: f.thumbnail,
+                    name: f.display_name,
+                    name_original: f.full_name
+                }).collect(),
                 timestamp: e.timestamp
             }).collect();
-        infov
+        catalog
     }
 }

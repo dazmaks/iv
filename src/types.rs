@@ -8,6 +8,7 @@ pub struct BoardRequest {
 
 pub struct File {
 	pub uri: String,
+	pub thumbnail: String,
 	pub name: String,
 	pub name_original: String
 }
@@ -25,8 +26,20 @@ pub struct ThreadInfo {
 	pub board: Board,
     pub id: ThreadID,
     pub comment: String,
-	pub posts_count: i64,
-	//pub files_count: i64,
+	pub posts_count: i32,
+	//pub files_count: i32,
+	pub timestamp: i64
+}
+
+pub struct CatalogThread {
+	pub board: Board,
+	pub board_name: String,
+	pub comment: String,
+	pub email: String,
+	pub op: bool,
+	pub posts_count: i32,
+	pub files_count: i32,
+	pub files: Vec<File>,
 	pub timestamp: i64
 }
 

@@ -1,6 +1,6 @@
 use iv::boards::{dvach, ImageBoard};
 
-use termimad::{inline, ask, mad_print_inline, MadSkin, Question, Answer};
+use termimad::inline;
 use chrono::prelude::*;
 
 static BOARD: &str = "b";
@@ -18,6 +18,8 @@ fn main() {
 
 {}", thread.board, thread.id, thread.posts_count, timestampfmt, thread.comment);
     println!("{}", inline(&output));
+
+    /*
     let skin = MadSkin::default();
 
     ask!(&skin, "What's next?", ('e') {
@@ -29,4 +31,5 @@ fn main() {
             std::process::exit(0);
         }
     });
+    */
 }
