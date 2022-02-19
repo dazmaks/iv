@@ -7,16 +7,17 @@ static BOARD: &str = "b";
 
 fn main() {
 	let board = BOARD.to_owned();
-	let thread = dvach::Dvach.get_last(board.clone());
-	let timestamp: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(thread.timestamp, 0), Utc);
-	let timestampfmt = timestamp.format("%Y-%m-%d %H:%M:%S");
+	let thread = dvach::Dvach.get_last_thread(board.clone());
 
 	let posts = dvach::Dvach.get_thread_posts(board, thread.id.clone());
 	for i in 0..posts.clone().into_iter().len() {
 		let timestamp: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(posts[i].clone().timestamp, 0), Utc);
-		let timestampfmt = timestamp.format("%Y-%m-%d %H:%M:%S");
+		let poutput = if posts[i].email != "" {
+			format!("**{} [{}]:**\nEmail: {}\n{}\nFiles: {}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].email, posts[i].comment, posts[i].files.len())
+		} else {
+			format!("**{} [{}]:**\n{}\nFiles: {}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].comment, posts[i].files.len())
+		};
 
-		let poutput = format!("**[{}] - {}**\n{}\n", posts[i].id, timestampfmt, posts[i].comment);
 		println!("{}", inline(&poutput));
 	}
 

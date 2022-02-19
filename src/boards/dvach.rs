@@ -245,7 +245,7 @@ struct ThreadResp {
 pub struct Dvach;
 
 impl super::ImageBoard for Dvach {
-	fn get_last(&self, board: Board) -> ThreadInfo {
+	fn get_last_thread(&self, board: Board) -> ThreadInfo {
 		let url: String = format!("https://2ch.hk/{}/threads.json", board);
 		let response = reqwest::blocking::get(url).unwrap();
 		let deserialized: ThreadsJSON = serde_json::from_str(&response.text().unwrap()).unwrap();
@@ -256,6 +256,15 @@ impl super::ImageBoard for Dvach {
 			posts_count: deserialized.threads[0].posts_count,
 			timestamp: deserialized.threads[0].timestamp
 		}
+	}
+
+	fn get_threads(&self, board: Board) -> Vec<ThreadInfo> {
+		let url: String = format!("https://2ch.hk/{}/threads.json", board);
+		let response = reqwest::blocking::get(url).unwrap();
+		let deserialized: ThreadsJSON = serde_json::from_str(&response.text().unwrap()).unwrap();
+		let threads: Vec<ThreadInfo> = deserialized.threads.into_iter().map(|t|
+			ThreadInfo { board: deserialized.board.clone(), id: t.num, comment: t.comment, posts_count: t.posts_count, timestamp: t.timestamp }).collect();
+		threads
 	}
 
 	fn get_catalog(&self, board: Board) -> Vec<CatalogThread> {
