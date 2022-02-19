@@ -6,6 +6,7 @@ pub struct BoardRequest {
 	pub thread: ThreadID
 }
 
+#[derive(Clone)]
 pub struct File {
 	pub uri: String,
 	pub thumbnail: String,
@@ -15,8 +16,11 @@ pub struct File {
 
 // All comments should be in markdown format
 
+#[derive(Clone)]
 pub struct Post {
+	pub id: String,
 	pub comment: String,
+	pub timestamp: i64,
 	pub email: String,
 	pub files: Vec<File>,
 	pub op: bool

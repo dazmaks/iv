@@ -1,7 +1,21 @@
 use crate::types::{Board, ThreadInfo, CatalogThread, File, ThreadID, Post};
 
-use serde::{Serialize, Deserialize};
 use html2md::parse_html;
+use serde::de::{self, Deserialize, Deserializer, Unexpected};
+
+fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    match u8::deserialize(deserializer)? {
+        0 => Ok(false),
+        1 => Ok(true),
+        other => Err(de::Error::invalid_value(
+            Unexpected::Unsigned(other as u64),
+            &"zero or one",
+        )),
+    }
+}
 
 // #[derive(Serialize, Deserialize)] D:
 
@@ -31,38 +45,44 @@ struct AbuNews {
 	views: i32
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 struct DvachFile {
-	display_name: String,
-	full_name: String,
+	displayname: String,
+	fullname: String,
 	height: i32,
 	md5: String,
 	name: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	nsfw: bool,
 	path: String,
 	size: i32,
 	thumbnail: String,
 	tn_height: i32,
 	tn_width: i32,
-	file_type: i32,
+	r#type: i32,
 }
 
 #[derive(Serialize, Deserialize)]
 struct CatalogRespThread {
+	#[serde(deserialize_with = "bool_from_int")]
 	banned: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	closed: bool,
 	comment: String,
 	date: String,
 	email: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	endless: bool,
 	files: Vec<DvachFile>,
 	files_count: i32,
 	lasthit: i32,
 	name: String,
 	num: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	op: bool,
 	parent: String,
 	posts_count: i32,
+	#[serde(deserialize_with = "bool_from_int")]
 	sticky: bool,
 	subject: String,
 	tags: String,
@@ -93,19 +113,33 @@ struct CatalogResp {
 	board_banner_link: String,
 	bump_limit: i32,
 	default_name: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_dices: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_flags: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_icons: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_images: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_likes: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_names: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_oekaki: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_posting: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_sage: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_shield: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_subject: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_thread_tags: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_trips: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_video: bool,
 	filter: String,
 	max_comment: i32,
@@ -115,9 +149,11 @@ struct CatalogResp {
 	top: Vec<TopBoard>
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 struct ThreadRespPost {
+	#[serde(deserialize_with = "bool_from_int")]
 	banned: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	closed: bool,
 	comment: String,
 	date: String,
@@ -127,11 +163,12 @@ struct ThreadRespPost {
 	name: String,
 	num: i32,
 	number: i32,
+	#[serde(deserialize_with = "bool_from_int")]
 	op: bool,
 	parent: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	sticky: bool,
 	subject: String,
-	tags: String,
 	timestamp: i64,
 	trip: String
 }
@@ -141,12 +178,13 @@ struct ThreadRespThread {
 	posts: Vec<ThreadRespPost>
 }
 
+#[allow(non_snake_case)]
 #[derive(Serialize, Deserialize)]
 struct ThreadResp {
-	board: Board,
-	board_info: String,
-	board_info_outer: String,
-	board_name: String,
+	r#Board: Board,
+	BoardInfo: String,
+	BoardInfoOuter: String,
+	BoardName: String,
 	advert_bottom_image: String,
 	advert_bottom_link: String,
 	advert_mobile_image: String,
@@ -158,23 +196,40 @@ struct ThreadResp {
 	bump_limit: i32,
 	current_thread: String,
 	default_name: String,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_dices: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_flags: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_icons: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_images: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_likes: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_names: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_oekaki: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_posting: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_sage: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_shield: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_subject: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_thread_tags: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_trips: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	enable_video: bool,
 	files_count: i32,
+	#[serde(deserialize_with = "bool_from_int")]
 	is_board: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	is_closed: bool,
+	#[serde(deserialize_with = "bool_from_int")]
 	is_index: bool,
 	max_comment: i32,
 	max_files_size: i32,
@@ -182,7 +237,7 @@ struct ThreadResp {
 	news_abu: Vec<AbuNews>,
 	posts_count: i32,
 	thread_first_image: String,
-	threads: ThreadRespThread,
+	threads: Vec<ThreadRespThread>,
 	title: String,
 	top: Vec<TopBoard>
 }
@@ -197,7 +252,7 @@ impl super::ImageBoard for Dvach {
 		ThreadInfo {
 			board: deserialized.board,
 			id: deserialized.threads[0].num.clone(),
-			comment: parse_html(&deserialized.threads[0].comment).clone(),
+			comment: parse_html(&deserialized.threads[0].comment),
 			posts_count: deserialized.threads[0].posts_count,
 			timestamp: deserialized.threads[0].timestamp
 		}
@@ -211,7 +266,7 @@ impl super::ImageBoard for Dvach {
 			CatalogThread {
 				board: deserialized.board.clone(),
 				board_name: deserialized.board_name.clone(),
-				comment: e.comment,
+				comment: parse_html(&e.comment),
 				email: e.email,
 				op: e.op,
 				posts_count: e.posts_count,
@@ -219,8 +274,8 @@ impl super::ImageBoard for Dvach {
 				files: e.files.into_iter().map(|f| File {
 					uri: f.path,
 					thumbnail: f.thumbnail,
-					name: f.display_name,
-					name_original: f.full_name
+					name: f.displayname,
+					name_original: f.fullname
 				}).collect(),
 				timestamp: e.timestamp
 			}).collect();
@@ -232,16 +287,18 @@ impl super::ImageBoard for Dvach {
 		let response = reqwest::blocking::get(url).unwrap();
 
 		let deserialized: ThreadResp = serde_json::from_str(&response.text().unwrap()).unwrap();
-		let posts = deserialized.threads.posts.into_iter().map(|p|
+		let posts = deserialized.threads[0].posts.clone().into_iter().map(|p|
 			Post {
-				comment: p.comment,
+				id: p.num.to_string(),
+				comment: parse_html(&p.comment),
+				timestamp: p.timestamp,
 				email: p.email,
 				files: p.files.into_iter().map(|f|
 					File {
 						uri: f.path,
 						thumbnail: f.thumbnail,
-						name: f.display_name,
-						name_original: f.full_name
+						name: f.displayname,
+						name_original: f.fullname
 					}).collect(),
 				op: p.op
 			}).collect();

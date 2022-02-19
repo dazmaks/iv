@@ -523,6 +523,7 @@ dependencies = [
  "html2md",
  "reqwest",
  "serde",
+ "serde_derive",
  "serde_json",
  "termimad",
 ]
