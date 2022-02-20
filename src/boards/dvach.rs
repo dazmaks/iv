@@ -305,7 +305,7 @@ impl super::ImageBoard for Dvach {
 					File {
 						uri: f.path,
 						thumbnail: f.thumbnail,
-						name: f.displayname,
+						name: f.name,
 						name_original: f.fullname
 					}).collect(),
 				op: p.op
