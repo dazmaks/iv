@@ -11,7 +11,7 @@ pub struct File {
 	pub uri: String,
 	pub thumbnail: String,
 	pub name: String,
-	pub name_original: String
+	pub name_original: Option<String>
 }
 
 // All comments should be in markdown format

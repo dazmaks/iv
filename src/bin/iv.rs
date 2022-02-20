@@ -9,29 +9,22 @@ fn main() {
 	let board = BOARD.to_owned();
 	let thread = dvach::Dvach.get_last_thread(board.clone());
 
-	let posts = dvach::Dvach.get_thread_posts(board, thread.id.clone());
+	let posts = dvach::Dvach.get_thread_posts(board, thread.id);
+
 	for i in 0..posts.clone().into_iter().len() {
-		let timestamp: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(posts[i].clone().timestamp, 0), Utc);
-		let poutput = if posts[i].email != "" {
-			format!("**{} [{}]:**\nEmail: {}\n{}\nFiles: {}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].email, posts[i].comment, posts[i].files.len())
+		let timestamp: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(posts[i].timestamp, 0), Utc);
+		let post_output = if posts[i].email != "" {
+			format!("**{} [{}]**\nEmail: {}\n{}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].email, posts[i].comment)
 		} else {
-			format!("**{} [{}]:**\n{}\nFiles: {}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].comment, posts[i].files.len())
+			format!("**{} [{}]**\n{}\n", posts[i].id, timestamp.format("%Y-%m-%d %H:%M:%S"), posts[i].comment)
 		};
 
-		println!("{}", inline(&poutput));
+		let output = if posts[i].files.len() > 0 {
+			format!("{}Files: {}\n", post_output, posts[i].files.len())
+		} else {
+			post_output
+		};
+
+		println!("{}", inline(&output));
 	}
-
-	/*
-	let skin = MadSkin::default();
-
-	ask!(&skin, "What's next?", ('e') {
-		('s', "Save") => {
-			mad_print_inline!(skin, "**Saving**\n");
-			std::fs::write(format!("{}-{}.save.md", thread.board, thread.id), output.clone()).unwrap();
-		}
-		('e', "Exit iv") => {
-			std::process::exit(0);
-		}
-	});
-	*/
 }

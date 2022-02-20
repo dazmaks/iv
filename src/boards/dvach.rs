@@ -48,12 +48,11 @@ struct AbuNews {
 #[derive(Serialize, Deserialize, Clone)]
 struct DvachFile {
 	displayname: String,
-	fullname: String,
+	fullname: Option<String>,
 	height: i32,
-	md5: String,
+	md5: Option<String>,
 	name: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	nsfw: bool,
+	nsfw: Option<u8>,
 	path: String,
 	size: i32,
 	thumbnail: String,
