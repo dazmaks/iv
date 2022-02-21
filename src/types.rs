@@ -15,8 +15,6 @@ pub struct File {
 }
 
 // All comments should be in markdown format
-
-#[derive(Clone)]
 pub struct Post {
 	pub id: String,
 	pub comment: String,

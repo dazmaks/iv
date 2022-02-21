@@ -3,23 +3,30 @@ use crate::types::{Board, ThreadInfo, CatalogThread, File, ThreadID, Post};
 use html2md::parse_html;
 use serde::de::{self, Deserialize, Deserializer, Unexpected};
 
-fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
-where
-    D: Deserializer<'de>,
-{
-    match u8::deserialize(deserializer)? {
-        0 => Ok(false),
-        1 => Ok(true),
-        other => Err(de::Error::invalid_value(
-            Unexpected::Unsigned(other as u64),
-            &"zero or one",
-        )),
-    }
+#[allow(dead_code)]
+#[derive(Clone)]
+struct IntBool(bool);
+
+impl<'de> Deserialize<'de> for IntBool {
+    fn deserialize<D>(deserializer: D) -> Result<IntBool, D::Error>
+	where
+		D: Deserializer<'de>,
+	{
+		match u8::deserialize(deserializer)? {
+			0 => Ok(IntBool(false)),
+			1 => Ok(IntBool(true)),
+			other => Err(de::Error::invalid_value(
+				Unexpected::Unsigned(other as u64),
+				&"zero or one",
+			)),
+		}
+	}
 }
 
 // #[derive(Serialize, Deserialize)] D:
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct ThreadShort {
 	comment: String,
 	lasthit: i32,
@@ -31,13 +38,15 @@ struct ThreadShort {
 	views: i32
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct ThreadsJSON {
 	board: String,
 	threads: Vec<ThreadShort>
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct AbuNews {
 	date: String,
 	num: i32,
@@ -45,7 +54,8 @@ struct AbuNews {
 	views: i32
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[allow(dead_code)]
+#[derive(Deserialize, Clone)]
 struct DvachFile {
 	displayname: String,
 	fullname: Option<String>,
@@ -61,42 +71,40 @@ struct DvachFile {
 	r#type: i32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct CatalogRespThread {
-	#[serde(deserialize_with = "bool_from_int")]
-	banned: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	closed: bool,
+	banned: IntBool,
+	closed: IntBool,
 	comment: String,
 	date: String,
 	email: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	endless: bool,
+	endless: IntBool,
 	files: Vec<DvachFile>,
 	files_count: i32,
 	lasthit: i32,
 	name: String,
 	num: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	op: bool,
+	op: IntBool,
 	parent: String,
 	posts_count: i32,
-	#[serde(deserialize_with = "bool_from_int")]
-	sticky: bool,
+	sticky: IntBool,
 	subject: String,
 	tags: String,
 	timestamp: i64,
 	trip: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct TopBoard {
 	board: String,
 	info: String,
 	name: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct CatalogResp {
 	board: Board,
 	board_info: String,
@@ -112,34 +120,20 @@ struct CatalogResp {
 	board_banner_link: String,
 	bump_limit: i32,
 	default_name: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_dices: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_flags: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_icons: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_images: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_likes: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_names: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_oekaki: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_posting: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_sage: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_shield: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_subject: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_thread_tags: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_trips: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_video: bool,
+	enable_dices: IntBool,
+	enable_flags: IntBool,
+	enable_icons: IntBool,
+	enable_images: IntBool,
+	enable_likes: IntBool,
+	enable_names: IntBool,
+	enable_oekaki: IntBool,
+	enable_posting: IntBool,
+	enable_sage: IntBool,
+	enable_shield: IntBool,
+	enable_subject: IntBool,
+	enable_thread_tags: IntBool,
+	enable_trips: IntBool,
+	enable_video: IntBool,
 	filter: String,
 	max_comment: i32,
 	max_files_size: i32,
@@ -148,12 +142,11 @@ struct CatalogResp {
 	top: Vec<TopBoard>
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[allow(dead_code)]
+#[derive(Deserialize, Clone)]
 struct ThreadRespPost {
-	#[serde(deserialize_with = "bool_from_int")]
-	banned: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	closed: bool,
+	banned: IntBool,
+	closed: IntBool,
 	comment: String,
 	date: String,
 	email: String,
@@ -162,23 +155,22 @@ struct ThreadRespPost {
 	name: String,
 	num: i32,
 	number: i32,
-	#[serde(deserialize_with = "bool_from_int")]
-	op: bool,
+	op: IntBool,
 	parent: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	sticky: bool,
+	sticky: IntBool,
 	subject: String,
 	timestamp: i64,
 	trip: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[allow(dead_code)]
+#[derive(Deserialize)]
 struct ThreadRespThread {
 	posts: Vec<ThreadRespPost>
 }
 
-#[allow(non_snake_case)]
-#[derive(Serialize, Deserialize)]
+#[allow(non_snake_case, dead_code)]
+#[derive(Deserialize)]
 struct ThreadResp {
 	r#Board: Board,
 	BoardInfo: String,
@@ -195,41 +187,24 @@ struct ThreadResp {
 	bump_limit: i32,
 	current_thread: String,
 	default_name: String,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_dices: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_flags: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_icons: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_images: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_likes: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_names: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_oekaki: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_posting: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_sage: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_shield: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_subject: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_thread_tags: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_trips: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	enable_video: bool,
+	enable_dices: IntBool,
+	enable_flags: IntBool,
+	enable_icons: IntBool,
+	enable_images: IntBool,
+	enable_likes: IntBool,
+	enable_names: IntBool,
+	enable_oekaki: IntBool,
+	enable_posting: IntBool,
+	enable_sage: IntBool,
+	enable_shield: IntBool,
+	enable_subject: IntBool,
+	enable_thread_tags: IntBool,
+	enable_trips: IntBool,
+	enable_video: IntBool,
 	files_count: i32,
-	#[serde(deserialize_with = "bool_from_int")]
-	is_board: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	is_closed: bool,
-	#[serde(deserialize_with = "bool_from_int")]
-	is_index: bool,
+	is_board: IntBool,
+	is_closed: IntBool,
+	is_index: IntBool,
 	max_comment: i32,
 	max_files_size: i32,
 	max_num: i32,
@@ -276,7 +251,7 @@ impl super::ImageBoard for Dvach {
 				board_name: deserialized.board_name.clone(),
 				comment: parse_html(&e.comment),
 				email: e.email,
-				op: e.op,
+				op: e.op.0,
 				posts_count: e.posts_count,
 				files_count: e.files_count,
 				files: e.files.into_iter().map(|f| File {
@@ -308,7 +283,7 @@ impl super::ImageBoard for Dvach {
 						name: f.name,
 						name_original: f.fullname
 					}).collect(),
-				op: p.op
+				op: p.op.0
 			}).collect();
 		posts
 	}
