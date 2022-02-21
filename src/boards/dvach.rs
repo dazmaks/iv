@@ -106,9 +106,13 @@ struct TopBoard {
 #[allow(dead_code)]
 #[derive(Deserialize)]
 struct CatalogResp {
+	#[serde(rename = "Board")]
 	board: Board,
+	#[serde(rename = "BoardInfo")]
 	board_info: String,
+	#[serde(rename = "BoardInfoOuter")]
 	board_info_outer: String,
+	#[serde(rename = "BoardName")]
 	board_name: String,
 	advert_bottom_image: String,
 	advert_bottom_link: String,
@@ -169,13 +173,17 @@ struct ThreadRespThread {
 	posts: Vec<ThreadRespPost>
 }
 
-#[allow(non_snake_case, dead_code)]
+#[allow(dead_code)]
 #[derive(Deserialize)]
 struct ThreadResp {
-	r#Board: Board,
-	BoardInfo: String,
-	BoardInfoOuter: String,
-	BoardName: String,
+	#[serde(rename = "Board")]
+	board: Board,
+	#[serde(rename = "BoardInfo")]
+	board_info: String,
+	#[serde(rename = "BoardInfoOuter")]
+	board_info_outer: String,
+	#[serde(rename = "BoardName")]
+	board_name: String,
 	advert_bottom_image: String,
 	advert_bottom_link: String,
 	advert_mobile_image: String,
