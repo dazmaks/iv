@@ -1,4 +1,5 @@
 use iv::boards::{dvach::Dvach, ImageBoard};
+use iv::types::Thread;
 
 //use termimad::inline;
 //use chrono::prelude::*;
@@ -12,7 +13,7 @@ fn main() {
 	let threads = Dvach.get_threads(BOARD.to_owned());
 	fs::create_dir(DIRECTORY).unwrap();
 	for j in 0..threads.len() {
-		let posts = Dvach.get_thread_posts(BOARD.to_owned(), threads[j].id.clone());
+		let posts = Dvach.get_thread_posts(Thread{board: BOARD.to_owned(), id: threads[j].thread.id.clone()});
 
 		// Downloading all files from board
 		for i in 0..posts.len() {

@@ -1,4 +1,4 @@
-use crate::types::{Board, ThreadInfo, CatalogThread, File, ThreadID, Post};
+use crate::types::{Board, ThreadInfo, CatalogThread, File, Post, Thread};
 
 use html2md::parse_html;
 use serde::de::{self, Deserialize, Deserializer, Unexpected};
@@ -228,12 +228,11 @@ pub struct Dvach;
 
 impl super::ImageBoard for Dvach {
 	fn get_last_thread(&self, board: Board) -> ThreadInfo {
-		let url: String = format!("https://2ch.hk/{}/threads.json", board);
+		let url = format!("https://2ch.hk/{}/threads.json", board);
 		let response = reqwest::blocking::get(url).unwrap();
 		let deserialized: ThreadsJSON = serde_json::from_str(&response.text().unwrap()).unwrap();
 		ThreadInfo {
-			board: deserialized.board,
-			id: deserialized.threads[0].num.clone(),
+			thread: Thread {board: deserialized.board, id: deserialized.threads[0].num.clone()},
 			comment: parse_html(&deserialized.threads[0].comment),
 			posts_count: deserialized.threads[0].posts_count,
 			timestamp: deserialized.threads[0].timestamp
@@ -241,16 +240,16 @@ impl super::ImageBoard for Dvach {
 	}
 
 	fn get_threads(&self, board: Board) -> Vec<ThreadInfo> {
-		let url: String = format!("https://2ch.hk/{}/threads.json", board);
+		let url = format!("https://2ch.hk/{}/threads.json", board);
 		let response = reqwest::blocking::get(url).unwrap();
 		let deserialized: ThreadsJSON = serde_json::from_str(&response.text().unwrap()).unwrap();
 		let threads: Vec<ThreadInfo> = deserialized.threads.into_iter().map(|t|
-			ThreadInfo { board: deserialized.board.clone(), id: t.num, comment: t.comment, posts_count: t.posts_count, timestamp: t.timestamp }).collect();
+			ThreadInfo { thread: Thread{board: deserialized.board.clone(), id: t.num}, comment: t.comment, posts_count: t.posts_count, timestamp: t.timestamp }).collect();
 		threads
 	}
 
 	fn get_catalog(&self, board: Board) -> Vec<CatalogThread> {
-		let url: String = format!("https://2ch.hk/{}/catalog.json", board);
+		let url = format!("https://2ch.hk/{}/catalog.json", board);
 		let response = reqwest::blocking::get(url).unwrap();
 		let deserialized: CatalogResp = serde_json::from_str(&response.text().unwrap()).unwrap();
 		let catalog: Vec<CatalogThread> = deserialized.threads.into_iter().map(|e|
@@ -273,8 +272,8 @@ impl super::ImageBoard for Dvach {
 		catalog
 	}
 
-	fn get_thread_posts(&self, board: Board, thread: ThreadID) -> Vec<Post> {
-		let url = format!("https://2ch.hk/{}/res/{}.json", board, thread);
+	fn get_thread_posts(&self, thread: Thread) -> Vec<Post> {
+		let url = format!("https://2ch.hk/{}/res/{}.json", thread.board, thread.id);
 		let response = reqwest::blocking::get(url).unwrap();
 
 		let deserialized: ThreadResp = serde_json::from_str(&response.text().unwrap()).unwrap();

@@ -1,6 +1,11 @@
 pub type ThreadID = String;
 pub type Board = String;
 
+pub struct Thread {
+	pub id: ThreadID,
+	pub board: Board
+}
+
 pub struct BoardRequest {
 	pub board: Board,
 	pub thread: ThreadID
@@ -25,8 +30,7 @@ pub struct Post {
 }
 
 pub struct ThreadInfo {
-	pub board: Board,
-	pub id: ThreadID,
+	pub thread: Thread,
 	pub comment: String,
 	pub posts_count: i32,
 	//pub files_count: i32,
