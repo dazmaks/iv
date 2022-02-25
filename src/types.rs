@@ -33,7 +33,6 @@ pub struct ThreadInfo {
 	pub thread: Thread,
 	pub comment: String,
 	pub posts_count: i32,
-	//pub files_count: i32,
 	pub timestamp: i64
 }
 
