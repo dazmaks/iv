@@ -1,4 +1,4 @@
-use crate::types::{Board, ThreadInfo, CatalogThread, File, Post, Thread};
+use crate::types::{Board, ThreadInfo, Catalog, File, Post, Thread};
 
 use html2md::parse_html;
 use serde::de::{self, Deserialize, Deserializer, Unexpected};
@@ -252,12 +252,12 @@ impl super::ImageBoard for Dvach {
 		threads
 	}
 
-	fn get_catalog(&self, board: Board) -> Vec<CatalogThread> {
+	fn get_catalog(&self, board: Board) -> Vec<Catalog> {
 		let url = self.get_url(board, "catalog.json".to_owned());
 		let response = reqwest::blocking::get(url).unwrap();
 		let deserialized: CatalogResp = serde_json::from_str(&response.text().unwrap()).unwrap();
-		let catalog: Vec<CatalogThread> = deserialized.threads.into_iter().map(|e|
-			CatalogThread {
+		let catalog: Vec<Catalog> = deserialized.threads.into_iter().map(|e|
+			Catalog {
 				board: deserialized.board.clone(),
 				board_name: deserialized.board_name.clone(),
 				comment: parse_html(&e.comment),
@@ -279,7 +279,6 @@ impl super::ImageBoard for Dvach {
 	fn get_thread_posts(&self, thread: Thread) -> Vec<Post> {
 		let url = self.get_url(thread.board, format!("res/{}.json", thread.id));
 		let response = reqwest::blocking::get(url).unwrap();
-
 		let deserialized: ThreadResp = serde_json::from_str(&response.text().unwrap()).unwrap();
 		let posts = deserialized.threads[0].posts.clone().into_iter().map(|p|
 			Post {

@@ -1,4 +1,4 @@
-use iv::boards::{dvach::Dvach, ImageBoard};
+use iv::boards::{dvach::Dvach, fourchan::Fourchan, ImageBoard};
 use iv::types::Thread;
 
 //use termimad::inline;
@@ -10,6 +10,8 @@ static BOARD: &str = "b";
 static DIRECTORY: &str = "content";
 
 fn main() {
+	println!("{:?}", Dvach.get_last_thread(BOARD.to_owned()));
+	println!("{:?}", Fourchan.get_last_thread(BOARD.to_owned()));
 	let threads = Dvach.get_threads(BOARD.to_owned());
 	fs::create_dir(DIRECTORY).unwrap();
 	for j in 0..threads.len() {

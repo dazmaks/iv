@@ -1,17 +1,19 @@
 pub type ThreadID = String;
 pub type Board = String;
 
+#[derive(Debug)]
 pub struct Thread {
 	pub id: ThreadID,
 	pub board: Board
 }
 
+#[derive(Debug)]
 pub struct BoardRequest {
 	pub board: Board,
 	pub thread: ThreadID
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct File {
 	pub uri: String,
 	pub thumbnail: String,
@@ -20,6 +22,7 @@ pub struct File {
 }
 
 // All comments should be in markdown format
+#[derive(Debug)]
 pub struct Post {
 	pub id: String,
 	pub comment: String,
@@ -29,6 +32,7 @@ pub struct Post {
 	pub op: bool
 }
 
+#[derive(Debug)]
 pub struct ThreadInfo {
 	pub thread: Thread,
 	pub comment: String,
@@ -36,7 +40,8 @@ pub struct ThreadInfo {
 	pub timestamp: i64
 }
 
-pub struct CatalogThread {
+#[derive(Debug)]
+pub struct Catalog {
 	pub board: Board,
 	pub board_name: String,
 	pub comment: String,
