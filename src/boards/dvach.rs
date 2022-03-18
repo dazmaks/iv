@@ -1,27 +1,7 @@
 use crate::types::{Board, ThreadInfo, Catalog, File, Post, Thread};
+use crate::boards::IntBool;
 
 use html2md::parse_html;
-use serde::de::{self, Deserialize, Deserializer, Unexpected};
-
-#[allow(dead_code)]
-#[derive(Clone)]
-struct IntBool(bool);
-
-impl<'de> Deserialize<'de> for IntBool {
-    fn deserialize<D>(deserializer: D) -> Result<IntBool, D::Error>
-	where
-		D: Deserializer<'de>,
-	{
-		match u8::deserialize(deserializer)? {
-			0 => Ok(IntBool(false)),
-			1 => Ok(IntBool(true)),
-			other => Err(de::Error::invalid_value(
-				Unexpected::Unsigned(other as u64),
-				&"zero or one",
-			)),
-		}
-	}
-}
 
 // #[derive(Serialize, Deserialize)] D:
 
