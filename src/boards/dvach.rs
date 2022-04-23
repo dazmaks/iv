@@ -68,7 +68,7 @@ struct CatalogRespThread {
 	op: IntBool,
 	parent: String,
 	posts_count: i32,
-	sticky: IntBool,
+	sticky: i8,
 	subject: String,
 	tags: String,
 	timestamp: i64,
@@ -141,7 +141,7 @@ struct ThreadRespPost {
 	number: i32,
 	op: IntBool,
 	parent: String,
-	sticky: IntBool,
+	sticky: i8,
 	subject: String,
 	timestamp: i64,
 	trip: String
