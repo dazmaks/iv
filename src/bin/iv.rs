@@ -1,9 +1,4 @@
 use iv::boards::{dvach::Dvach, fourchan::Fourchan, ImageBoard};
-//use iv::types::Thread;
-//use termimad::inline;
-//use chrono::prelude::*;
-//use std::fs;
-//use std::io;
 
 static BOARD: &str = "b";
 

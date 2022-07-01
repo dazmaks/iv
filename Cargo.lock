@@ -12,15 +12,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ansi_colours"
-version = "1.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32678233b67f9056b0c144b39d46dc3218637e8d84ad6038ded339e08b19620d"
-dependencies = [
- "rgb",
-]
-
-[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -43,12 +34,6 @@ name = "bumpalo"
 version = "3.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
-
-[[package]]
-name = "bytemuck"
-version = "1.7.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "439989e6b8c38d1b6570a384ef1e49c8848128f5a97f3914baef02920842712f"
 
 [[package]]
 name = "bytes"
@@ -75,19 +60,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "chrono"
-version = "0.4.19"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
-dependencies = [
- "libc",
- "num-integer",
- "num-traits",
- "time",
- "winapi",
-]
-
-[[package]]
 name = "combine"
 version = "4.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -95,16 +67,6 @@ checksum = "50b727aacc797f9fc28e355d21f34709ac4fc9adecfe470ad07b8f4464f53062"
 dependencies = [
  "bytes",
  "memchr",
-]
-
-[[package]]
-name = "coolor"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b78645ef095d812eecfa830f67e35394314e31be71fdba59543274542c950013"
-dependencies = [
- "ansi_colours",
- "crossterm",
 ]
 
 [[package]]
@@ -122,99 +84,6 @@ name = "core-foundation-sys"
 version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5827cebf4670468b8772dd191856768aedcb1b0278a04f989f7766351917b9dc"
-
-[[package]]
-name = "crossbeam"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4ae5588f6b3c3cb05239e90bd110f257254aecd01e4635400391aeae07497845"
-dependencies = [
- "cfg-if",
- "crossbeam-channel",
- "crossbeam-deque",
- "crossbeam-epoch",
- "crossbeam-queue",
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-channel"
-version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e54ea8bc3fb1ee042f5aace6e3c6e025d3874866da222930f70ce62aceba0bfa"
-dependencies = [
- "cfg-if",
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-deque"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6455c0ca19f0d2fbf751b908d5c55c1f5cbc65e03c4225427254b46890bdde1e"
-dependencies = [
- "cfg-if",
- "crossbeam-epoch",
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-epoch"
-version = "0.9.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c00d6d2ea26e8b151d99093005cb442fb9a37aeaca582a03ec70946f49ab5ed9"
-dependencies = [
- "cfg-if",
- "crossbeam-utils",
- "lazy_static",
- "memoffset",
- "scopeguard",
-]
-
-[[package]]
-name = "crossbeam-queue"
-version = "0.3.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4dd435b205a4842da59efd07628f921c096bc1cc0a156835b4fa0bcb9a19bcce"
-dependencies = [
- "cfg-if",
- "crossbeam-utils",
-]
-
-[[package]]
-name = "crossbeam-utils"
-version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5e5bed1f1c269533fa816a0a5492b3545209a205ca1a54842be180eb63a16a6"
-dependencies = [
- "cfg-if",
- "lazy_static",
-]
-
-[[package]]
-name = "crossterm"
-version = "0.22.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c85525306c4291d1b73ce93c8acf9c339f9b213aef6c1d85c3830cbf1c16325c"
-dependencies = [
- "bitflags",
- "crossterm_winapi",
- "libc",
- "mio 0.7.14",
- "parking_lot",
- "signal-hook",
- "signal-hook-mio",
- "winapi",
-]
-
-[[package]]
-name = "crossterm_winapi"
-version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ae1b35a484aa10e07fe0638d02301c5ad24de82d310ccbd2f3693da5f09bf1c"
-dependencies = [
- "winapi",
-]
 
 [[package]]
 name = "encoding_rs"
@@ -519,13 +388,11 @@ checksum = "1aab8fc367588b89dcee83ab0fd66b72b50b72fa1904d7095045ace2b0c81c35"
 name = "iv"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "html2md",
  "reqwest",
  "serde",
  "serde_derive",
  "serde_json",
- "termimad",
 ]
 
 [[package]]
@@ -632,41 +499,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
 
 [[package]]
-name = "memoffset"
-version = "0.6.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5aa361d4faea93603064a027415f07bd8e1d5c88c9fbf68bf56a285428fd79ce"
-dependencies = [
- "autocfg",
-]
-
-[[package]]
 name = "mime"
 version = "0.3.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2a60c7ce501c71e03a9c9c0d35b861413ae925bd979cc7a4e30d060069aaac8d"
-
-[[package]]
-name = "minimad"
-version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd37b2e65fbd459544194d8f52ed84027e031684335a062c708774c09d172b0b"
-dependencies = [
- "once_cell",
-]
-
-[[package]]
-name = "mio"
-version = "0.7.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8067b404fe97c70829f082dec8bcf4f71225d7eaea1d8645349cb76fa06205cc"
-dependencies = [
- "libc",
- "log",
- "miow",
- "ntapi",
- "winapi",
-]
 
 [[package]]
 name = "mio"
@@ -721,25 +557,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f6bb902e437b6d86e03cce10a7e2af662292c5dfef23b65899ea3ac9354ad44"
 dependencies = [
  "winapi",
-]
-
-[[package]]
-name = "num-integer"
-version = "0.1.44"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d2cc698a63b549a70bc047073d2949cce27cd1c7b0a4a862d08a8031bc2801db"
-dependencies = [
- "autocfg",
- "num-traits",
-]
-
-[[package]]
-name = "num-traits"
-version = "0.2.14"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290"
-dependencies = [
- "autocfg",
 ]
 
 [[package]]
@@ -1040,15 +857,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rgb"
-version = "0.8.31"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a374af9a0e5fdcdd98c1c7b64f05004f9ea2555b6c75f211daa81268a3c50f1"
-dependencies = [
- "bytemuck",
-]
-
-[[package]]
 name = "ryu"
 version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1143,36 +951,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "signal-hook"
-version = "0.3.13"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "647c97df271007dcea485bb74ffdb57f2e683f1306c854f468a0c244badabf2d"
-dependencies = [
- "libc",
- "signal-hook-registry",
-]
-
-[[package]]
-name = "signal-hook-mio"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "29fd5867f1c4f2c5be079aee7a2adf1152ebb04a4bc4d341f504b7dece607ed4"
-dependencies = [
- "libc",
- "mio 0.7.14",
- "signal-hook",
-]
-
-[[package]]
-name = "signal-hook-registry"
-version = "1.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e51e73328dc4ac0c7ccbda3a494dfa03df1de2f46018127f60c693f2648455b0"
-dependencies = [
- "libc",
-]
-
-[[package]]
 name = "siphasher"
 version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1263,20 +1041,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "termimad"
-version = "0.20.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06968d34307feb19a7ab8e5678d5b318c9021c16b0a913d76dbdef943391cf0b"
-dependencies = [
- "coolor",
- "crossbeam",
- "crossterm",
- "minimad",
- "thiserror",
- "unicode-width",
-]
-
-[[package]]
 name = "thiserror"
 version = "1.0.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1331,7 +1095,7 @@ dependencies = [
  "bytes",
  "libc",
  "memchr",
- "mio 0.8.0",
+ "mio",
  "num_cpus",
  "pin-project-lite",
  "socket2",
@@ -1408,12 +1172,6 @@ checksum = "d54590932941a9e9266f0832deed84ebe1bf2e4c9e4a3554d393d18f5e854bf9"
 dependencies = [
  "tinyvec",
 ]
-
-[[package]]
-name = "unicode-width"
-version = "0.1.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
 
 [[package]]
 name = "unicode-xid"
