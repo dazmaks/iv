@@ -1,16 +1,17 @@
 # iv
-CLI imageboard viewer implemented in Rust.
 
-# TODO
-- [ ] Add localization
-- [ ] Add image viewer
-- [ ] Add ui
-- [ ] Add other imageboards
-- [x] Add 4chan
+imageboard parser library
 
-# References
-- [2ch API](https://2ch.hk/abu/res/42375.html)
-- [4chan API](https://github.com/4chan/4chan-API)
+# usage
 
-# License
-[MIT](LICENSE)
+```rust
+use iv::boards::{dvach::Dvach, fourchan::Fourchan, ImageBoard};
+
+static BOARD: &str = "b";
+
+fn main() {
+    // getting 2ch.hk and 4chan.org /b/ last thread
+    println!("{:?}", Dvach.get_last_thread(BOARD.to_owned()));
+    println!("{:?}", Fourchan.get_last_thread(BOARD.to_owned()));
+}
+```
